@@ -71,9 +71,32 @@ z
 
 # Пример лямбда-функции (аннонимной функции)
 
-# Пример функции с переменным количеством аргументов
 
+
+
+
+
+
+# Пример функции с переменным количеством аргументов
+function sum_all(args...)
+    return sum(args)
+end
+Base.sum
+sum_all(1,2,3)
+a="a"+"b"
+sum_all("1","2","3")
 # Пример функции с именованными аргументами
+function greet_and_sum(greeting, args...)
+    println(greeting)
+    return sum(args)
+end
+print("ff")
+
+module Master
+using  Plots
+end 
+
+
 
 # Функции с переменным кол-вом именованных аргументов
 
