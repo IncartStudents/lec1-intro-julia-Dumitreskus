@@ -45,7 +45,7 @@ function step(state::Life2)
     return nothing
 end
 function main1(ABGR)
-    a,b =100, 100
+    a,b =1000, 1000
     initalization=rand(0:1,a,b)
     game=Life2(initalization,zeros(a,b))
     anim = @animate for time = 1:100

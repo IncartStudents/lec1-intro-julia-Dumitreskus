@@ -18,13 +18,13 @@ mutable struct WorldState
     vision_radius::Float64  # Радиус видимости для взаимодействия
     separation_weight::Float64  # Вес для разделения
     alignment_weight::Float64  # Вес для выравнивания
-    cohesion_weight::Float64   # Вес для сплочения
+    cohesion_weight::Float64   # Вес для Согласованность //работает верно
     max_speed::Float64         # Максимальная скорость
 
     function WorldState(n_boids, width, height)
         # Создаем птичек со случайными позициями и скоростями
         boids = [Boid(rand() * width, rand() * height, rand() * 2 - 1, rand() * 2 - 1) for _ in 1:n_boids]
-        new(boids, width, height, 5.0, 1.0, 1.0, 1.0, 2.0)
+        new(boids, width, height, 5.0, 0.1, 1.5, 0.1, 2.0)
     end
 end
 
@@ -74,7 +74,7 @@ function alignment(boid::Boid, state::WorldState)
     return steer
 end
 
-# Правило сплочения (Cohesion)
+# Правило Согласованность (Cohesion)
 function cohesion(boid::Boid, state::WorldState)
     center_of_mass = (0.0, 0.0)
     count = 0
