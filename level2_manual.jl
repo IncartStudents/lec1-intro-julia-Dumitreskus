@@ -460,7 +460,7 @@ using Pkg
 Pkg.add("ProfileView")
 Pkg.add("Profile")
 using ProfileView
-
+import ProfileView: @profview
 function generate_data(len)
     vec1 = Vector{Float64}(undef, len)  # Предварительное выделение памяти
     for k = 1:len
@@ -474,7 +474,34 @@ end
 # Профилируем функцию
 @profview generate_data(1_000_000)
 # Переписать функцию выше так, чтобы она выполнялась быстрее:
+function generate_data_optimized(len)
+    # Pre-allocate memory for all vectors
+    vec1 = Vector{Float64}(undef, len)
+    vec2 = Vector{Float64}(undef, len)
+    vec3 = Vector{Float64}(undef, len)
 
+    # Fill vec1 with random numbers
+    @inbounds for k in 1:len
+        vec1[k] = randn()
+    end
+
+    # Sort vec1 in-place and store the result in vec2
+    copyto!(vec2, vec1)  # Copy vec1 to vec2
+    sort!(vec2)  # Sort vec2 in-place
+
+    # Compute the mean of vec2
+    mean_val = sum(vec2) / len
+
+    # Perform mathematical operations in-place
+    @inbounds for k in 1:len
+        vec3[k] = vec2[k]^3 - mean_val
+    end
+
+    return vec3
+end
+
+# Profile the function
+@profview generate_data_optimized(1_000_000)
 
 #===========================================================================================
 8. Отличия от матлаба: приращение массива и предварительная аллокация?
